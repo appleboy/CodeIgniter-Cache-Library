@@ -67,7 +67,7 @@ class Lib_cache
     {
         $this->_ci->load->helper('security');
 
-        if (!$expires) {
+        if (!$expires or empty($expires)) {
             if ($this->_default_expires == 0) {
                 $expires = 365*60*60*24;
             } else {
