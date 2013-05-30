@@ -21,7 +21,7 @@ class Lib_cache
      */
     function __construct()
     {
-        log_message('debug', "Cache Class Initialized.");
+        log_message('debug', "Cache Library Initialized.");
 
         $this->_ci =& get_instance();
         $this->_ci->load->config('cache');
@@ -63,9 +63,17 @@ class Lib_cache
         return $this->_call($model, $method, $arguments, $expires);
     }
 
-    private function _call($property, $method, $arguments = array(), $expires = NULL)
+    private function _call($property, $method, $arguments = array(), $expires = null)
     {
         $this->_ci->load->helper('security');
+
+        if (!$expires) {
+            if ($this->_default_expires == 0) {
+                $expires = 365*60*60*24;
+            } else {
+                $expires = $this->_default_expires;
+            }
+        }
 
         if (!is_array($arguments)) {
             $arguments = (array) $arguments;
